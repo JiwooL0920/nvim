@@ -1,0 +1,196 @@
+return {
+  "folke/tokyonight.nvim",
+  priority = 1000,
+  config = function()
+    local transparent = false -- set to true if you would like to enable transparency
+
+    -- Base Colors - Customize these to your liking
+    local colors = {
+      none = "NONE",
+
+      -- Background colors
+      bg = "#011628",
+      bg_dark = "#011423",
+      bg_highlight = "#143652",
+      bg_search = "#0A64AC",
+      bg_visual = "#275378",
+      bg_popup = "#011423",
+      bg_statusline = "#011423",
+      bg_sidebar = "#011423",
+      bg_float = "#011423",
+
+      -- Foreground colors
+      fg = "#CBE0F0",
+      fg_dark = "#B4D0E9",
+      fg_gutter = "#627E97",
+      fg_sidebar = "#B4D0E9",
+      fg_float = "#CBE0F0",
+
+      -- Border and UI
+      border = "#547998",
+      comment = "#627E97",
+
+      -- Core syntax colors (required)
+      black = "#15161E",
+      blue = "#7AA2F7",
+      blue0 = "#3D59A1",
+      blue1 = "#2AC3DE",
+      blue2 = "#0DB9D7",
+      blue5 = "#89DDFF",
+      blue6 = "#B4F9F8",
+      blue7 = "#394B70",
+      cyan = "#7DCFFF",
+      dark3 = "#545c7e",
+      dark5 = "#737aa2",
+      green = "#9ECE6A",
+      green1 = "#73DACA",
+      green2 = "#41A6B5",
+      magenta = "#BB9AF7",
+      magenta2 = "#FF007C",
+      orange = "#FF9E64",
+      purple = "#9D7CD8",
+      red = "#F7768E",
+      red1 = "#DB4B4B",
+      teal = "#1ABC9C",
+      yellow = "#E0AF68",
+
+      -- Git colors
+      git = {
+        add = "#9ECE6A",
+        change = "#E0AF68",
+        delete = "#F7768E",
+      },
+
+      -- Terminal colors
+      terminal_black = "#15161E",
+      terminal_red = "#F7768E",
+      terminal_green = "#9ECE6A",
+      terminal_yellow = "#E0AF68",
+      terminal_blue = "#7AA2F7",
+      terminal_magenta = "#BB9AF7",
+      terminal_cyan = "#7DCFFF",
+      terminal_white = "#A9B1D6",
+      terminal_bright_black = "#414868",
+      terminal_bright_red = "#F7768E",
+      terminal_bright_green = "#9ECE6A",
+      terminal_bright_yellow = "#E0AF68",
+      terminal_bright_blue = "#7AA2F7",
+      terminal_bright_magenta = "#BB9AF7",
+      terminal_bright_cyan = "#7DCFFF",
+      terminal_bright_white = "#C0CAF5",
+    }
+
+    require("tokyonight").setup({
+      style = "night",
+      transparent = transparent,
+      terminal_colors = true,
+      styles = {
+        comments = { italic = true },
+        keywords = { italic = true },
+        functions = {},
+        variables = {},
+        sidebars = transparent and "transparent" or "dark",
+        floats = transparent and "transparent" or "dark",
+      },
+
+      -- Override all colors
+      on_colors = function(c)
+        -- Apply all custom colors
+        for key, value in pairs(colors) do
+          c[key] = value
+        end
+
+        -- Handle transparency
+        if transparent then
+          c.bg_dark = c.none
+          c.bg_float = c.none
+          c.bg_sidebar = c.none
+          c.bg_statusline = c.none
+        end
+      end,
+
+      -- Override specific highlight groups
+      on_highlights = function(hl, c)
+        -- Normal text
+        hl.Normal = { fg = c.fg, bg = transparent and c.none or c.bg }
+        hl.NormalFloat = { fg = c.fg_float, bg = transparent and c.none or c.bg_float }
+        hl.NormalSB = { fg = c.fg_sidebar, bg = transparent and c.none or c.bg_sidebar }
+
+        -- Cursor and selection
+        hl.Cursor = { fg = c.bg, bg = c.fg }
+        hl.CursorLine = { bg = c.bg_highlight }
+        hl.CursorColumn = { bg = c.bg_highlight }
+        hl.Visual = { bg = c.bg_visual }
+        hl.Search = { bg = c.bg_search, fg = c.fg }
+        hl.IncSearch = { bg = c.orange, fg = c.bg }
+
+        -- Line numbers
+        hl.LineNr = { fg = c.fg_gutter }
+        hl.CursorLineNr = { fg = c.fg }
+        hl.SignColumn = { bg = transparent and c.none or c.bg, fg = c.fg_gutter }
+
+        -- Comments and documentation
+        hl.Comment = { fg = c.comment, italic = true }
+        hl.SpecialComment = { fg = c.comment }
+
+        -- Keywords and operators
+        hl.Keyword = { fg = c.purple, italic = true }
+        hl.Operator = { fg = c.blue5 or c.blue }
+        hl.Statement = { fg = c.magenta }
+        hl.Conditional = { fg = c.magenta }
+        hl.Repeat = { fg = c.magenta }
+        hl.Label = { fg = c.magenta }
+
+        -- Functions and methods
+        hl.Function = { fg = c.blue }
+        hl["@function"] = { fg = c.blue }
+        hl["@method"] = { fg = c.blue }
+
+        -- Variables and identifiers
+        hl.Identifier = { fg = c.fg }
+        hl["@variable"] = { fg = c.fg }
+        hl["@parameter"] = { fg = c.red2 or c.red }
+
+        -- Types and constants
+        hl.Type = { fg = c.blue1 or c.blue }
+        hl.Constant = { fg = c.orange }
+        hl.String = { fg = c.green }
+        hl.Character = { fg = c.green }
+        hl.Number = { fg = c.orange }
+        hl.Boolean = { fg = c.orange }
+
+        -- Preprocessor
+        hl.PreProc = { fg = c.cyan }
+        hl.Include = { fg = c.magenta }
+        hl.Define = { fg = c.magenta }
+        hl.Macro = { fg = c.magenta }
+
+        -- Errors and warnings
+        hl.Error = { fg = c.red }
+        hl.ErrorMsg = { fg = c.red }
+        hl.WarningMsg = { fg = c.yellow }
+
+        -- Popups and menus
+        hl.Pmenu = { fg = c.fg, bg = c.bg_popup }
+        hl.PmenuSel = { bg = c.bg_visual }
+        hl.PmenuSbar = { bg = c.bg_popup }
+        hl.PmenuThumb = { bg = c.fg_gutter }
+
+        -- Borders
+        hl.FloatBorder = { fg = c.border, bg = transparent and c.none or c.bg_float }
+        hl.WinSeparator = { fg = c.border }
+
+        -- Git
+        hl.DiffAdd = { bg = c.git.add, fg = c.bg }
+        hl.DiffChange = { bg = c.git.change, fg = c.bg }
+        hl.DiffDelete = { bg = c.git.delete, fg = c.bg }
+        hl.DiffText = { bg = c.git.change, fg = c.bg }
+
+        -- Custom highlight groups (add your own here)
+        -- hl.MyCustomGroup = { fg = c.blue, bg = c.bg_dark, bold = true }
+      end,
+    })
+
+    vim.cmd("colorscheme tokyonight")
+  end,
+}

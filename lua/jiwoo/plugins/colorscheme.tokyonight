@@ -1,0 +1,31 @@
+-- return {
+--   {
+--     "tanvirtin/monokai.nvim",
+--     lazy = false, -- Load during startup since it's your main colorscheme
+--     priority = 1000, -- High priority to load before other plugins
+--     config = function()
+--       require("monokai").setup({
+--         -- Customize the colorscheme here (optional)
+--         palette = {
+--           -- You can override specific colors if needed
+--           -- name = '#hex_color',
+--         },
+--         custom_hlgroups = {
+--           -- Custom highlight groups
+--           -- Example: TSInclude = { fg = '#C586C0' },
+--         },
+--       })
+--
+--       -- Set the colorscheme
+--       vim.cmd.colorscheme("monokai")
+--     end,
+--   },
+-- }
+
+return {
+  "folke/tokyonight.nvim",
+  priority = 1000,
+  config = function()
+    vim.cmd("colorscheme tokyonight")
+  end,
+}

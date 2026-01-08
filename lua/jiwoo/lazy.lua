@@ -11,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { import = "jiwoo.plugins" }, { import = "jiwoo.plugins.lsp" } }, {
+require("lazy").setup({ { import = "jiwoo.plugins" } }, {
   checker = {
     enabled = true,
     notify = false,

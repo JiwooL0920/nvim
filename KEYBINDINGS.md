@@ -16,6 +16,7 @@ This document provides a comprehensive guide to all custom keybindings configure
 - [LSP (Language Server)](#lsp-language-server)
 - [Autocompletion (nvim-cmp)](#autocompletion-nvim-cmp)
 - [GitHub Copilot](#github-copilot)
+- [OpenCode (AI Assistant)](#opencode-ai-assistant)
 - [Text Manipulation](#text-manipulation)
 - [Comments](#comments)
 - [Surround](#surround)
@@ -175,6 +176,58 @@ These keybindings work in Insert mode when the completion menu is open:
 | `]]` | Jump next | Jump to next suggestion |
 | `<CR>` | Accept | Accept suggestion |
 | `gr` | Refresh | Refresh suggestions |
+
+---
+
+## OpenCode (AI Assistant)
+
+OpenCode integrates an AI assistant with Neovim for editor-aware research, reviews, and code requests.
+
+### Core Actions
+
+| Mode | Keybinding | Action | Description |
+|------|------------|--------|-------------|
+| Normal/Terminal | `<leader>oo` | Toggle | Toggle opencode session |
+| Normal/Visual | `<leader>oa` | Ask | Ask opencode with current context |
+| Normal/Visual | `<leader>os` | Select | Select from prompts/actions |
+| Normal/Visual | `go` | Operator | Opencode operator (use with motion) |
+
+### Built-in Prompts
+
+| Mode | Keybinding | Action | Description |
+|------|------------|--------|-------------|
+| Normal/Visual | `<leader>or` | Review | Review code for correctness |
+| Normal/Visual | `<leader>oe` | Explain | Explain code and its context |
+| Normal/Visual | `<leader>of` | Fix | Fix diagnostics/issues |
+| Normal/Visual | `<leader>ot` | Test | Generate tests for code |
+| Normal/Visual | `<leader>od` | Document | Add documentation comments |
+| Normal/Visual | `<leader>oi` | Implement | Implement code/feature |
+
+### Session Management
+
+| Mode | Keybinding | Action | Description |
+|------|------------|--------|-------------|
+| Normal | `<leader>on` | New session | Start a new opencode session |
+| Normal | `<leader>ol` | List sessions | List all opencode sessions |
+
+### Context Placeholders
+
+When using `ask()`, you can use these placeholders:
+- `@this` - Visual selection or cursor position
+- `@buffer` - Current buffer content
+- `@buffers` - All open buffers
+- `@diagnostics` - LSP diagnostics
+- `@diff` - Git diff
+- `@quickfix` - Quickfix list items
+
+### Operator Usage Examples
+
+The `go` operator works like any Vim operator:
+- `goip` - Send inner paragraph to opencode
+- `goiw` - Send inner word to opencode
+- `go3j` - Send current line + 3 lines down
+- `goG` - Send from cursor to end of file
+- Visual select + `go` - Send selection to opencode
 
 ---
 
@@ -344,6 +397,14 @@ Completion:
 Copilot:
   <C-J>       - Accept suggestion
   <C-]>       - Dismiss suggestion
+
+OpenCode:
+  <leader>oo  - Toggle opencode
+  <leader>oa  - Ask with context
+  <leader>os  - Select action
+  <leader>or  - Review code
+  <leader>oe  - Explain code
+  go{motion}  - Operator (e.g., goip)
 ```
 
 ---

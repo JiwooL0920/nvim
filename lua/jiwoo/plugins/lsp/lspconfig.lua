@@ -7,167 +7,110 @@ return {
     { "folke/neodev.nvim", opts = {} },
   },
   config = function()
-    -- import lspconfig plugin
-    local lspconfig = require("lspconfig")
-    local mason_lspconfig = require("mason-lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    local keymap = vim.keymap
 
-    local keymap = vim.keymap -- for conciseness
-
+    -- LSP keymaps on attach
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", {}),
       callback = function(ev)
-        -- Buffer local mappings.
         local opts = { buffer = ev.buf, silent = true }
 
-        -- set keybinds
         opts.desc = "Show LSP references"
-        keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+        keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
 
         opts.desc = "Go to declaration"
-        keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
+        keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 
-        opts.desc = "Show LSP definitions"
-        keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+        opts.desc = "Go to definition"
+        keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
+
+        opts.desc = "Preview definition in Telescope"
+        keymap.set("n", "gf", function()
+          require("telescope.builtin").lsp_definitions({ jump_type = "never" })
+        end, opts)
 
         opts.desc = "Show LSP implementations"
-        keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+        keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
 
         opts.desc = "Show LSP type definitions"
-        keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
+        keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 
         opts.desc = "See available code actions"
-        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
+        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
 
         opts.desc = "Smart rename"
-        keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+        keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
         opts.desc = "Show buffer diagnostics"
-        keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+        keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
 
         opts.desc = "Show line diagnostics"
-        keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+        keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
 
         opts.desc = "Go to previous diagnostic"
-        keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+        keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 
         opts.desc = "Go to next diagnostic"
-        keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+        keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 
         opts.desc = "Show documentation for what is under cursor"
-        keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+        keymap.set("n", "K", vim.lsp.buf.hover, opts)
 
         opts.desc = "Restart LSP"
-        keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+        keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
       end,
     })
 
-    -- used to enable autocompletion (assign to every lsp server config)
+    -- Capabilities for autocompletion
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
-    -- Change the Diagnostic symbols in the sign column (gutter)
-    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
+    -- Apply capabilities to all servers via wildcard
+    vim.lsp.config("*", {
+      capabilities = capabilities,
+    })
 
-    -- Default handler that will be used for all servers without a dedicated handler
-    local default_setup = function(server)
-      lspconfig[server].setup({
-        capabilities = capabilities,
-      })
-    end
+    -- Server-specific overrides
+    vim.lsp.config("lua_ls", {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+          completion = {
+            callSnippet = "Replace",
+          },
+        },
+      },
+    })
 
-    -- Check if mason_lspconfig is available before calling setup_handlers
-    if mason_lspconfig.setup_handlers then
-      mason_lspconfig.setup_handlers({
-        default_setup, -- default handler
-        
-        -- dedicated handlers for specific servers
-        ["lua_ls"] = function()
-          lspconfig.lua_ls.setup({
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                -- make the language server recognize "vim" global
-                diagnostics = {
-                  globals = { "vim" },
-                },
-                completion = {
-                  callSnippet = "Replace",
-                },
-              },
-            },
-          })
-        end,
-        
-        ["ts_ls"] = function()
-          lspconfig.ts_ls.setup({
-            capabilities = capabilities,
-            settings = {
-              typescript = {
-                inlayHints = {
-                  includeInlayParameterNameHints = "literal",
-                  includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                  includeInlayFunctionParameterTypeHints = true,
-                  includeInlayVariableTypeHints = false,
-                  includeInlayPropertyDeclarationTypeHints = true,
-                  includeInlayFunctionLikeReturnTypeHints = true,
-                  includeInlayEnumMemberValueHints = true,
-                },
-              },
-              javascript = {
-                inlayHints = {
-                  includeInlayParameterNameHints = "all",
-                  includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                  includeInlayFunctionParameterTypeHints = true,
-                  includeInlayVariableTypeHints = true,
-                  includeInlayPropertyDeclarationTypeHints = true,
-                  includeInlayFunctionLikeReturnTypeHints = true,
-                  includeInlayEnumMemberValueHints = true,
-                },
-              },
-            },
-          })
-        end,
-      })
-    else
-      -- Fallback: setup servers manually if setup_handlers is not available
-      local servers = {
-        "ts_ls",
-        "html",
-        "cssls",
-        "tailwindcss",
-        "svelte",
-        "lua_ls",
-        "graphql",
-        "emmet_ls",
-        "prismals",
-        "pyright",
-      }
-      
-      for _, server in pairs(servers) do
-        if server == "lua_ls" then
-          lspconfig.lua_ls.setup({
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                diagnostics = {
-                  globals = { "vim" },
-                },
-                completion = {
-                  callSnippet = "Replace",
-                },
-              },
-            },
-          })
-        else
-          lspconfig[server].setup({
-            capabilities = capabilities,
-          })
-        end
-      end
-    end
+    vim.lsp.config("ts_ls", {
+      settings = {
+        typescript = {
+          inlayHints = {
+            includeInlayParameterNameHints = "literal",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = false,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
+        },
+        javascript = {
+          inlayHints = {
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
+        },
+      },
+    })
+
+    -- mason-lspconfig handles vim.lsp.enable() automatically for installed servers
   end,
 }

@@ -1,434 +1,293 @@
-# Neovim Keybindings Reference
+# Neovim Keybindings Cheat Sheet (Leader = Space)
 
-This document provides a comprehensive guide to all custom keybindings configured in your Neovim setup.
+Notation: `<leader>` = `Space`, `C-` = `Ctrl`, `M-` = `Alt`, `<CR>` = `Enter`.
 
-## Leader Key
-**Leader key is set to `<Space>`**
+## Essential Vim (worth knowing)
 
----
+| Keybinding | Action |
+| --- | --- |
+| `:w` / `:q` / `:wq` | Save / quit / save+quit |
+| `u` / `C-r` | Undo / redo |
+| `dd` / `yy` / `p` / `P` | Cut line / copy line / paste after/before |
+| `ciw` | Change inner word (great for quick edits) |
+| `diw` | Delete inner word |
+| `yiw` | Yank inner word |
+| `%` | Jump to matching `()`, `{}`, `[]` |
+| `gg` / `G` | Top / bottom of file |
+| `/` then `n` / `N` | Search forward; next/prev match |
+| `v` / `V` | Visual / visual line selection |
 
-## Table of Contents
-- [General Keybindings](#general-keybindings)
-- [Window Management](#window-management)
-- [Tab Management](#tab-management)
-- [File Explorer (nvim-tree)](#file-explorer-nvim-tree)
-- [Telescope (Fuzzy Finder)](#telescope-fuzzy-finder)
-- [LSP (Language Server)](#lsp-language-server)
-- [Autocompletion (nvim-cmp)](#autocompletion-nvim-cmp)
-- [GitHub Copilot](#github-copilot)
-- [OpenCode (AI Assistant)](#opencode-ai-assistant)
-- [Text Manipulation](#text-manipulation)
-- [Comments](#comments)
-- [Surround](#surround)
-- [Todo Comments](#todo-comments)
-- [Trouble (Diagnostics)](#trouble-diagnostics)
-- [Git (LazyGit)](#git-lazygit)
-- [Split Maximizer](#split-maximizer)
+## Navigation & Movement (windows, splits, tabs)
 
----
-
-## General Keybindings
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Insert | `ii` | `<ESC>` | Exit insert mode |
-| Normal | `<leader>nh` | `:nohl` | Clear search highlights |
-| Normal | `<leader>+` | `<C-a>` | Increment number under cursor |
-| Normal | `<leader>-` | `<C-x>` | Decrement number under cursor |
-
----
-
-## Window Management
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `<leader>sv` | `<C-w>v` | Split window vertically |
-| Normal | `<leader>sh` | `<C-w>s` | Split window horizontally |
-| Normal | `<leader>se` | `<C-w>=` | Make splits equal size |
-| Normal | `<leader>sx` | `:close` | Close current split |
-| Normal | `<leader>sm` | `:MaximizerToggle` | Maximize/minimize current split |
-
----
-
-## Tab Management
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `<leader>to` | `:tabnew` | Open new tab |
-| Normal | `<leader>tx` | `:tabclose` | Close current tab |
-| Normal | `<leader>tn` | `:tabn` | Go to next tab |
-| Normal | `<leader>tp` | `:tabp` | Go to previous tab |
-| Normal | `<leader>tf` | `:tabnew %` | Open current buffer in new tab |
-
----
+| Keybinding | Action |
+| --- | --- |
+| `ii` (insert) | Exit insert mode (acts like `Esc`) |
+| `<leader>sv` | Split window vertically |
+| `<leader>sh` | Split window horizontally |
+| `<leader>se` | Make splits equal size |
+| `<leader>sx` | Close current split |
+| `<leader>sm` | Maximize/minimize current split |
+| `<leader>to` | Open new tab |
+| `<leader>tx` | Close current tab |
+| `<leader>tn` | Next tab |
+| `<leader>tp` | Previous tab |
+| `<leader>tf` | Open current buffer in a new tab |
+| `gt` / `gT` | Next / previous tab (Vim built-in) |
+| `<leader>nh` | Clear search highlights (`:nohl`) |
+| `<leader>+` | Increment number under cursor |
+| `<leader>-` | Decrement number under cursor |
 
 ## File Explorer (nvim-tree)
 
-### Global Keybindings
+| Keybinding | Action |
+| --- | --- |
+| `<leader>ee` | Toggle file explorer |
+| `<leader>ef` | Reveal current file in explorer |
+| `<leader>ec` | Collapse explorer |
+| `<leader>er` | Refresh explorer |
 
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `<leader>ee` | `:NvimTreeToggle` | Toggle file explorer |
-| Normal | `<leader>ef` | `:NvimTreeFindFileToggle` | Toggle file explorer on current file |
-| Normal | `<leader>ec` | `:NvimTreeCollapse` | Collapse file explorer |
-| Normal | `<leader>er` | `:NvimTreeRefresh` | Refresh file explorer |
+Inside the tree (defaults):
 
-### Inside nvim-tree
+| Keybinding | Action |
+| --- | --- |
+| `a` | Create file/folder |
+| `d` | Delete |
+| `r` | Rename |
+| `x` / `c` / `p` | Cut / copy / paste |
+| `<CR>` / `o` | Open |
+| `v` / `s` | Open in vertical / horizontal split |
+| `I` | Toggle hidden files |
+| `H` | Toggle dotfiles |
 
-The file explorer uses default nvim-tree keybindings. Some common ones:
-- `<CR>` or `o` - Open file/folder
-- `a` - Create new file/folder
-- `d` - Delete file/folder
-- `r` - Rename file/folder
-- `x` - Cut file/folder
-- `c` - Copy file/folder
-- `p` - Paste file/folder
-- `y` - Copy name
-- `Y` - Copy relative path
-- `gy` - Copy absolute path
-- `q` - Close nvim-tree
+## Searching & Finding (Telescope)
 
----
+Global (think “VS Code Cmd+P / Cmd+Shift+F”):
 
-## Telescope (Fuzzy Finder)
+| Keybinding | Action |
+| --- | --- |
+| `<leader>ff` | Find files (like VS Code **Cmd+P**) |
+| `<leader>fr` | Recent files |
+| `<leader>fs` | Live grep in project (like VS Code **Cmd+Shift+F**) |
+| `<leader>fc` | Grep word under cursor |
+| `<leader>ft` | Find TODOs (TodoTelescope) |
 
-### Normal Mode
+Inside Telescope picker — custom mappings in this config:
 
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `<leader>ff` | `:Telescope find_files` | Fuzzy find files in cwd |
-| Normal | `<leader>fr` | `:Telescope oldfiles` | Fuzzy find recent files |
-| Normal | `<leader>fs` | `:Telescope live_grep` | Find string in cwd (live grep) |
-| Normal | `<leader>fc` | `:Telescope grep_string` | Find string under cursor in cwd |
-| Normal | `<leader>ft` | `:TodoTelescope` | Find todos |
+| Keybinding | Action |
+| --- | --- |
+| `C-j` (insert/normal) | Move selection down |
+| `C-k` (insert/normal) | Move selection up |
+| `C-q` (insert/normal) | Send results to quickfix **and open Trouble** |
+| `M-t` (insert/normal) | Toggle Trouble view for Telescope |
+| `<CR>` (normal) | Select default |
 
-### Inside Telescope (Insert Mode)
+Inside Telescope picker — built-in defaults (handy to know):
 
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Insert | `<C-k>` | Move up | Move to previous result |
-| Insert | `<C-j>` | Move down | Move to next result |
-| Insert | `<C-q>` | Send to quickfix | Send selected to quickfix and open Trouble |
-| Insert | `<C-t>` | Toggle Trouble | Open selected in Trouble |
+Insert mode:
 
----
+| Keybinding | Action |
+| --- | --- |
+| `C-t` | Open selection in a new tab |
+| `C-v` | Open in vertical split |
+| `C-x` | Open in horizontal split |
+| `C-u` / `C-d` | Scroll preview up/down |
+| `Esc` | Close picker (or switch to normal mode, depending on your current state) |
+| `C-/` | Show Telescope keymap help |
 
-## LSP (Language Server)
+Normal mode:
 
-These keybindings are available when LSP is attached to a buffer:
+| Keybinding | Action |
+| --- | --- |
+| `j` / `k` | Move selection down/up |
+| `gg` / `G` | Jump to top/bottom |
+| `H` / `M` / `L` | Jump to high/middle/low of list |
+| `?` | Show Telescope keymap help |
+| `C-t` / `C-v` / `C-x` | Open in tab / vsplit / split |
 
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `gR` | `:Telescope lsp_references` | Show LSP references |
-| Normal | `gD` | `vim.lsp.buf.declaration` | Go to declaration |
-| Normal | `gd` | `:Telescope lsp_definitions` | Show LSP definitions |
-| Normal | `gi` | `:Telescope lsp_implementations` | Show LSP implementations |
-| Normal | `gt` | `:Telescope lsp_type_definitions` | Show LSP type definitions |
-| Normal/Visual | `<leader>ca` | `vim.lsp.buf.code_action` | See available code actions |
-| Normal | `<leader>rn` | `vim.lsp.buf.rename` | Smart rename |
-| Normal | `<leader>D` | `:Telescope diagnostics bufnr=0` | Show buffer diagnostics |
-| Normal | `<leader>d` | `vim.diagnostic.open_float` | Show line diagnostics |
-| Normal | `[d` | `vim.diagnostic.goto_prev` | Go to previous diagnostic |
-| Normal | `]d` | `vim.diagnostic.goto_next` | Go to next diagnostic |
-| Normal | `K` | `vim.lsp.buf.hover` | Show documentation for cursor |
-| Normal | `<leader>rs` | `:LspRestart` | Restart LSP |
+## Code Intelligence / LSP (when LSP is attached)
 
----
+| Keybinding | Action |
+| --- | --- |
+| `gd` | Go to definition (Telescope; jumps if single result) |
+| `gf` | Definitions picker **always** (no auto-jump; preview) |
+| `gD` | Go to declaration |
+| `gR` | Find references (Telescope) |
+| `gi` | Go to implementation (Telescope) |
+| `gt` | Go to type definition (Telescope) |
+| `K` | Hover docs |
+| `<leader>rn` | Rename symbol |
+| `<leader>ca` (normal/visual) | Code action |
+| `<leader>D` | Diagnostics list for current buffer (Telescope) |
+| `<leader>d` | Line diagnostics float |
+| `[d` / `]d` | Prev/next diagnostic |
+| `<leader>rs` | Restart LSP |
 
 ## Autocompletion (nvim-cmp)
 
-These keybindings work in Insert mode when the completion menu is open:
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Insert | `<C-k>` | Select previous | Previous completion item |
-| Insert | `<C-j>` | Select next | Next completion item |
-| Insert | `<C-b>` | Scroll up | Scroll docs up |
-| Insert | `<C-f>` | Scroll down | Scroll docs down |
-| Insert | `<C-Space>` | Complete | Trigger completion |
-| Insert | `<C-e>` | Abort | Close completion menu |
-| Insert | `<CR>` | Confirm | Confirm selection |
-
----
-
-## GitHub Copilot
-
-### Suggestions (Insert Mode)
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Insert | `<C-J>` | Accept | Accept Copilot suggestion |
-| Insert | `<M-]>` | Next | Next Copilot suggestion |
-| Insert | `<M-[>` | Previous | Previous Copilot suggestion |
-| Insert | `<C-]>` | Dismiss | Dismiss Copilot suggestion |
-
-### Panel
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `<M-CR>` | Open panel | Open Copilot panel |
-
-### Inside Copilot Panel
-
-| Keybinding | Action | Description |
-|------------|--------|-------------|
-| `[[` | Jump previous | Jump to previous suggestion |
-| `]]` | Jump next | Jump to next suggestion |
-| `<CR>` | Accept | Accept suggestion |
-| `gr` | Refresh | Refresh suggestions |
-
----
-
-## OpenCode (AI Assistant)
-
-OpenCode integrates an AI assistant with Neovim for editor-aware research, reviews, and code requests.
-
-### Core Actions
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal/Terminal | `<leader>oo` | Toggle | Toggle opencode session |
-| Normal/Visual | `<leader>oa` | Ask | Ask opencode with current context |
-| Normal/Visual | `<leader>os` | Select | Select from prompts/actions |
-| Normal/Visual | `go` | Operator | Opencode operator (use with motion) |
-
-### Built-in Prompts
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal/Visual | `<leader>or` | Review | Review code for correctness |
-| Normal/Visual | `<leader>oe` | Explain | Explain code and its context |
-| Normal/Visual | `<leader>of` | Fix | Fix diagnostics/issues |
-| Normal/Visual | `<leader>ot` | Test | Generate tests for code |
-| Normal/Visual | `<leader>od` | Document | Add documentation comments |
-| Normal/Visual | `<leader>oi` | Implement | Implement code/feature |
-
-### Session Management
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `<leader>on` | New session | Start a new opencode session |
-| Normal | `<leader>ol` | List sessions | List all opencode sessions |
-
-### Context Placeholders
-
-When using `ask()`, you can use these placeholders:
-- `@this` - Visual selection or cursor position
-- `@buffer` - Current buffer content
-- `@buffers` - All open buffers
-- `@diagnostics` - LSP diagnostics
-- `@diff` - Git diff
-- `@quickfix` - Quickfix list items
-
-### Operator Usage Examples
-
-The `go` operator works like any Vim operator:
-- `goip` - Send inner paragraph to opencode
-- `goiw` - Send inner word to opencode
-- `go3j` - Send current line + 3 lines down
-- `goG` - Send from cursor to end of file
-- Visual select + `go` - Send selection to opencode
-
----
-
-## Text Manipulation
-
-### Substitute Plugin
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `s` | Substitute operator | Substitute with motion |
-| Normal | `ss` | Substitute line | Substitute entire line |
-| Normal | `S` | Substitute to EOL | Substitute to end of line |
-| Visual | `s` | Substitute visual | Substitute in visual selection |
-
-**Example usage:**
-- `siw` - Substitute inner word
-- `sip` - Substitute inner paragraph
-- `ss` - Substitute current line
-
----
-
-## Comments
-
-Uses the **Comment.nvim** plugin with default keybindings:
-
-### Normal Mode
-
-| Keybinding | Action | Description |
-|------------|--------|-------------|
-| `gcc` | Toggle line | Toggle comment on current line |
-| `gbc` | Toggle block | Toggle block comment |
-| `gc{motion}` | Comment motion | Comment using motion (e.g., `gcap` for paragraph) |
-| `gb{motion}` | Block comment motion | Block comment using motion |
-
-### Visual Mode
-
-| Keybinding | Action | Description |
-|------------|--------|-------------|
-| `gc` | Toggle comment | Toggle comment on selection |
-| `gb` | Toggle block | Toggle block comment on selection |
-
-**Common examples:**
-- `gcap` - Comment a paragraph
-- `gc3j` - Comment current line + 3 lines down
-- `gcG` - Comment from cursor to end of file
-
----
-
-## Surround
-
-Uses the **nvim-surround** plugin with default keybindings:
-
-### Normal Mode
-
-| Keybinding | Action | Description |
-|------------|--------|-------------|
-| `ys{motion}{char}` | Add surround | Add surrounding around motion |
-| `ds{char}` | Delete surround | Delete surrounding |
-| `cs{old}{new}` | Change surround | Change surrounding from old to new |
-
-### Visual Mode
-
-| Keybinding | Action | Description |
-|------------|--------|-------------|
-| `S{char}` | Surround selection | Add surrounding to visual selection |
-
-**Common examples:**
-- `ysiw"` - Surround inner word with "
-- `yss)` - Surround entire line with ()
-- `ds"` - Delete surrounding "
-- `cs"'` - Change surrounding " to '
-- `cs)]` - Change surrounding ) to ]
-- Visual select + `S<p>` - Wrap selection in `<p>` tags
-
----
-
-## Todo Comments
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `]t` | Next todo | Jump to next todo comment |
-| Normal | `[t` | Previous todo | Jump to previous todo comment |
-| Normal | `<leader>ft` | Find todos | Search todos with Telescope |
-
-**Supported todo keywords:**
-- `TODO:` - Something to do
-- `HACK:` - Hacky solution
-- `WARN:` - Warning
-- `PERF:` - Performance issue
-- `NOTE:` - Note
-- `FIX:` or `FIXME:` - Something to fix
-- `BUG:` - Bug
-
----
-
-## Trouble (Diagnostics)
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `<leader>xw` | `:Trouble diagnostics toggle` | Toggle workspace diagnostics |
-| Normal | `<leader>xd` | `:Trouble diagnostics toggle filter.buf=0` | Toggle document diagnostics |
-| Normal | `<leader>xq` | `:Trouble quickfix toggle` | Toggle quickfix list |
-| Normal | `<leader>xl` | `:Trouble loclist toggle` | Toggle location list |
-| Normal | `<leader>xt` | `:Trouble todo toggle` | Toggle todos in Trouble |
-
----
-
-## Git (LazyGit)
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `<leader>lg` | `:LazyGit` | Open LazyGit |
-
-**LazyGit is a terminal UI for git commands. Once opened, it has its own keybindings.**
-
----
-
-## Split Maximizer
-
-| Mode | Keybinding | Action | Description |
-|------|------------|--------|-------------|
-| Normal | `<leader>sm` | `:MaximizerToggle` | Maximize/minimize current split window |
-
----
-
-## Quick Reference Card
-
-### Most Important Keybindings
-
-```
-LEADER = <Space>
-
-File Navigation:
-  <leader>ff  - Find files
-  <leader>fs  - Find string (grep)
-  <leader>ee  - Toggle file explorer
-
-Window/Split:
-  <leader>sv  - Split vertically
-  <leader>sh  - Split horizontally
-  <leader>sm  - Maximize/minimize split
-
-LSP:
-  gd          - Go to definition
-  gr          - Show references (via gR)
-  K           - Show hover docs
-  <leader>ca  - Code actions
-  <leader>rn  - Rename symbol
-
-Diagnostics:
-  ]d          - Next diagnostic
-  [d          - Previous diagnostic
-  <leader>xw  - Workspace diagnostics
-
-Git:
-  <leader>lg  - Open LazyGit
-
-Comments:
-  gcc         - Toggle line comment
-  gc{motion}  - Comment motion
-
-Completion:
-  <C-Space>   - Trigger completion
-  <C-j>/<C-k> - Navigate completion
-  <CR>        - Confirm
-
-Copilot:
-  <C-J>       - Accept suggestion
-  <C-]>       - Dismiss suggestion
-
-OpenCode:
-  <leader>oo  - Toggle opencode
-  <leader>oa  - Ask with context
-  <leader>os  - Select action
-  <leader>or  - Review code
-  <leader>oe  - Explain code
-  go{motion}  - Operator (e.g., goip)
-```
-
----
-
-## Tips
-
-1. **Which-key Integration**: After pressing the leader key (`<Space>`), wait 500ms to see available keybindings via which-key popup.
-
-2. **Insert Mode Escape**: Use `ii` instead of `<ESC>` for faster exit from insert mode.
-
-3. **Number Increment/Decrement**: Position cursor on a number and use `<leader>+` or `<leader>-`.
-
-4. **Telescope Navigation**: In Telescope, use `<C-j>` and `<C-k>` instead of arrow keys for faster navigation.
-
-5. **LSP Features**: Most LSP features are prefixed with `g` (go to) or use the leader key for actions.
-
-6. **Trouble Integration**: Both Telescope and LSP diagnostics integrate with Trouble for better error navigation.
-
----
-
-## Configuration Files
-
-All keybindings are defined in:
-- `lua/jiwoo/core/keymaps.lua` - Core keymaps
-- Plugin-specific configs in `lua/jiwoo/plugins/*.lua`
-
-To modify keybindings, edit the respective configuration files and restart Neovim or run `:source %`.
+| Keybinding | Action |
+| --- | --- |
+| *(no custom mappings listed)* | Completion uses plugin/default mappings for this config |
+
+## Copilot
+
+Copilot suggestions auto-trigger in insert mode.
+
+| Keybinding | Action |
+| --- | --- |
+| `C-J` (insert) | Accept suggestion |
+| `M-]` (insert) | Next suggestion |
+| `M-[` (insert) | Previous suggestion |
+| `C-]` (insert) | Dismiss suggestion |
+
+Copilot Panel:
+
+| Keybinding | Action |
+| --- | --- |
+| `M-<CR>` | Open panel |
+| `[[` | Previous suggestion (panel) |
+| `]]` | Next suggestion (panel) |
+| `<CR>` | Accept suggestion (panel) |
+| `gr` | Refresh panel |
+
+## OpenCode AI
+
+| Keybinding | Action |
+| --- | --- |
+| `<leader>oo` | Toggle OpenCode (normal + terminal mode) |
+| `C-w` + `h/j/k/l` (terminal) | Navigate away from OpenCode back to editor splits |
+| `<leader>oa` (normal/visual) | Ask OpenCode using `@this` context |
+| `<leader>os` (normal/visual) | Select an OpenCode action |
+| `go` (normal/visual) | OpenCode **operator** (use like a Vim operator over a motion/selection) |
+| `<leader>or` (normal/visual) | Review |
+| `<leader>oe` (normal/visual) | Explain |
+| `<leader>of` (normal/visual) | Fix |
+| `<leader>ot` (normal/visual) | Generate tests |
+| `<leader>od` (normal/visual) | Document |
+| `<leader>oi` (normal/visual) | Implement |
+| `<leader>on` | New OpenCode session |
+| `<leader>ol` | List OpenCode sessions |
+
+## Git (LazyGit + Gitsigns)
+
+| Keybinding | Action |
+| --- | --- |
+| `<leader>lg` | Open LazyGit |
+
+Gitsigns — hunk navigation:
+
+| Keybinding | Action |
+| --- | --- |
+| `]h` / `[h` | Next / previous hunk |
+
+Gitsigns — actions:
+
+| Keybinding | Action |
+| --- | --- |
+| `<leader>hs` (normal/visual) | Stage hunk |
+| `<leader>hr` (normal/visual) | Reset hunk |
+| `<leader>hS` | Stage entire buffer |
+| `<leader>hR` | Reset entire buffer |
+| `<leader>hu` | Undo stage hunk |
+| `<leader>hp` | Preview hunk |
+| `<leader>hb` | Blame line (full) |
+| `<leader>hB` | Toggle current line blame |
+| `<leader>hd` | Diff this |
+| `<leader>hD` | Diff this against last commit (`~`) |
+
+Gitsigns — text object:
+
+| Keybinding | Action |
+| --- | --- |
+| `ih` (operator/visual) | Select hunk |
+
+## Code Editing (comment, surround, substitute, format, lint)
+
+Commenting (Comment.nvim defaults):
+
+| Keybinding | Action |
+| --- | --- |
+| `gcc` | Toggle comment on current line |
+| `gc{motion}` | Toggle comment for motion (example: `gcip`) |
+| `gc` (visual) | Toggle comment on selection |
+| `gbc` | Toggle **block** comment on current line |
+| `gb{motion}` | Toggle block comment for motion |
+| `gb` (visual) | Toggle block comment on selection |
+
+Surround (nvim-surround defaults):
+
+| Keybinding | Action |
+| --- | --- |
+| `ys{motion}{char}` | Add surround (example: `ysiw"`) |
+| `ds{char}` | Delete surround (example: `ds"`) |
+| `cs{old}{new}` | Change surround (example: `cs"'`) |
+| `S{char}` (visual) | Surround selection |
+
+Substitute (substitute.nvim):
+
+| Keybinding | Action |
+| --- | --- |
+| `s{motion}` | Substitute over a motion |
+| `ss` | Substitute entire line |
+| `S` | Substitute to end of line |
+| `s` (visual) | Substitute selection |
+
+Formatting / linting:
+
+| Keybinding | Action |
+| --- | --- |
+| `<leader>fm` (normal/visual) | Format file or selected range |
+| `<leader>l` | Run linting for current file |
+
+## Diagnostics & Trouble
+
+Trouble lists:
+
+| Keybinding | Action |
+| --- | --- |
+| `<leader>xw` | Toggle Trouble diagnostics (workspace) |
+| `<leader>xd` | Toggle Trouble diagnostics (current buffer) |
+| `<leader>xq` | Toggle Trouble quickfix |
+| `<leader>xl` | Toggle Trouble location list |
+| `<leader>xt` | Toggle Trouble TODOs |
+
+TODO comment navigation (todo-comments):
+
+| Keybinding | Action |
+| --- | --- |
+| `]t` / `[t` | Next / previous TODO comment |
+
+## Session Management (auto-session)
+
+| Keybinding | Action |
+| --- | --- |
+| `<leader>ws` | Save session for current working directory |
+| `<leader>wr` | Restore session for current working directory |
+
+## Misc
+
+Markdown preview:
+
+| Keybinding | Action |
+| --- | --- |
+| `<leader>mp` | Start Markdown preview |
+| `<leader>ms` | Stop Markdown preview |
+
+Which-key:
+
+| Keybinding | Action |
+| --- | --- |
+| *(press and hold)* `<leader>` | Press `Space` and wait ~500ms to see available leader mappings |
+
+## Pro Tips / Things You Might Not Know
+
+- **which-key:** press `Space` and wait ~500ms to discover keybindings.
+- **Sessions:** auto-session can save/restore your whole layout for a folder (`<leader>ws` / `<leader>wr`).
+- **Format-on-save:** enabled (Prettier for JS/TS/CSS/HTML/JSON/YAML/MD; Stylua for Lua). Use `<leader>fm` anytime.
+- **Linting:** eslint_d runs automatically on file read/save/insert-leave; run manually with `<leader>l`.
+- **Gitsigns:** shows `+/-` markers in the sign column; use `]h`/`[h` to hop hunks fast.
+- **Relative numbers:** on (great for jumps like `5j`, `12k`).
+- **Clipboard:** synced with system clipboard (yank/paste works with your OS copy/paste).
+- **Tabs bar:** bufferline is in **tabs** mode (tab strip at the top). Use `<leader>tn`/`<leader>tp` or `gt`/`gT`.
+- **Search:** smartcase is on (lowercase searches ignore case; mixed-case searches are case-sensitive).
+- **Splits:** open to the right and below (more predictable layout).
+- **Indent:** tab width is 2 spaces.

@@ -27,11 +27,23 @@ return {
         path_display = { "smart" },
         mappings = {
           i = {
-            ["<C-k>"] = actions.move_selection_previous, -- move to prev result
-            ["<C-j>"] = actions.move_selection_next, -- move to next result
+            ["<C-k>"] = actions.move_selection_previous,
+            ["<C-j>"] = actions.move_selection_next,
             ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
-            ["<C-t>"] = function() trouble.toggle("telescope") end,
+            ["<M-t>"] = function() trouble.toggle("telescope") end,
           },
+          n = {
+            ["<CR>"] = actions.select_default,
+            ["<C-k>"] = actions.move_selection_previous,
+            ["<C-j>"] = actions.move_selection_next,
+            ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
+            ["<M-t>"] = function() trouble.toggle("telescope") end,
+          },
+        },
+      },
+      pickers = {
+        lsp_definitions = {
+          show_line = false,
         },
       },
     })

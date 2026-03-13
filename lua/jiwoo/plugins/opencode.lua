@@ -4,7 +4,21 @@ return {
     { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
   },
   config = function()
-    vim.g.opencode_opts = {}
+    local opencode_cmd = "NODE_EXTRA_CA_CERTS=/Users/u1002349/usr/local/share/ca-certificates/ca-certificates.crt opencode --port"
+    ---@type opencode.Opts
+    vim.g.opencode_opts = {
+      server = {
+        start = function()
+          require("opencode.terminal").start(opencode_cmd)
+        end,
+        stop = function()
+          require("opencode.terminal").stop()
+        end,
+        toggle = function()
+          require("opencode.terminal").toggle(opencode_cmd)
+        end,
+      },
+    }
     vim.o.autoread = true
   end,
 }

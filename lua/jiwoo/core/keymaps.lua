@@ -10,6 +10,9 @@ keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
 keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
 
+-- terminal mode: make <C-w> work like normal mode for window navigation
+keymap.set("t", "<C-w>", "<C-\\><C-n><C-w>", { desc = "Window command from terminal" })
+
 -- window management
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
@@ -22,13 +25,17 @@ keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
+-- markdown preview
+keymap.set("n", "<leader>mp", "<cmd>MarkdownPreview<CR>", { desc = "Markdown preview" })
+keymap.set("n", "<leader>ms", "<cmd>MarkdownPreviewStop<CR>", { desc = "Stop markdown preview" })
+
 -- opencode.nvim keymaps
 keymap.set({ "n", "t" }, "<leader>oo", function()
   require("opencode").toggle()
 end, { desc = "Toggle opencode" })
 
 keymap.set({ "n", "x" }, "<leader>oa", function()
-  require("opencode").ask("@this: ")
+  require("opencode").ask("@this: ", { submit = true })
 end, { desc = "Ask opencode with context" })
 
 keymap.set({ "n", "x" }, "<leader>os", function()

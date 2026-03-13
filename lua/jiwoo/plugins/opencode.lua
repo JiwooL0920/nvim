@@ -20,5 +20,9 @@ return {
       },
     }
     vim.o.autoread = true
+
+    vim.keymap.set("n", "<leader>os", function() require("opencode").select_session() end, { desc = "OpenCode: Select session" })
+    vim.keymap.set("n", "<leader>on", function() require("opencode").command("session.new") end, { desc = "OpenCode: New session" })
+    vim.keymap.set("n", "<leader>oo", function() require("opencode").select() end, { desc = "OpenCode: Command palette" })
   end,
 }
